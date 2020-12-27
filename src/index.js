@@ -64,6 +64,7 @@ class Game extends React.Component {
     if (calculateWin(squares).winner || squares[i]) {
       return;
     }
+
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{
@@ -91,9 +92,10 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
-    const {winner, winningSquares} = calculateWin(current.squares);
     const stepNumber = this.state.stepNumber;
     const ascendingHistory = this.state.ascendingHistory;
+    const {winner, winningSquares} = calculateWin(current.squares);
+    const hasRemainingMoves = current.squares.includes(null);
 
     let moves = history.map((step, move) => {
       const lastMove = step.lastMove;
@@ -111,14 +113,17 @@ class Game extends React.Component {
         </li>
       );
     });
-
     if (!ascendingHistory) moves.reverse();
 
     let status;
     if (winner) {
       status = 'Winner: ' + winner; 
     } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      if (!hasRemainingMoves) {
+        status = 'Draw :(';
+      } else {
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      }
     }
 
     return (
