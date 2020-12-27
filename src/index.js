@@ -99,8 +99,8 @@ class Game extends React.Component {
 
     let moves = history.map((step, move) => {
       const lastMove = step.lastMove;
-      const lastMoveCol = lastMove % 3 + 1;
-      const lastMoveWid = Math.floor(lastMove / 3) + 1;
+      const lastMoveCol = lastMove % 3;
+      const lastMoveWid = Math.floor(lastMove / 3);
       const desc = move ?
         `Go to move #${move} - (${lastMoveCol},${lastMoveWid})` :
         'Go to game start';
